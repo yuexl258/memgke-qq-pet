@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"database/sql"
-	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -19,8 +18,6 @@ import (
 )
 
 const dailyOpponentLimit = 3
-
-const generatedOpponentQQ = "2587495862"
 
 type Client interface {
 	GetPetPKPower(context.Context, int64, string) (json.RawMessage, error)
@@ -366,24 +363,6 @@ func (s *Scheduler) runBindingWorker(ctx context.Context, bindingID int64, qq st
 		item.dailyFinished = true
 		return true
 	}
-	if config.TargetStarts == 10 {
-		petID := generatedOpponentPetID()
-		result, startErr := s.client.StartPetPK(ctx, selfID, selfPetID, generatedOpponentQQ, petID)
-		if startErr != nil {
-			return true
-		}
-		storyID := findString(result, "story_id")
-		if storyID == "" {
-			return true
-		}
-		if _, updateErr := s.recordSuccessfulStart(ctx, bindingID, generatedOpponentQQ); updateErr != nil {
-			s.fail(bindingID, "start_save", "PK start 已成功但状态保存失败", updateErr)
-			return true
-		}
-		item.inflight = &inflight{opponentUserID: generatedOpponentQQ, opponentPetID: petID, storyID: storyID, selfPetID: selfPetID, quiet: true}
-		s.recordWithPower(bindingID, "start", generatedOpponentQQ, petID, 0, true, "PK已提交", "")
-		return true
-	}
 	var selfPower, selfType sql.NullInt64
 	if err := s.db.QueryRowContext(ctx, "SELECT pk_power, dominant_type FROM pet_profiles WHERE qq_binding_id = ?", bindingID).Scan(&selfPower, &selfType); err != nil || !selfPower.Valid || !selfType.Valid {
 		s.fail(bindingID, "profile", "自身宠物资料或战力不完整", err)
@@ -532,11 +511,6 @@ func startTimeReached(value string, now time.Time) bool {
 	}
 	minutes := now.Hour()*60 + now.Minute()
 	return minutes >= parsed.Hour()*60+parsed.Minute()
-}
-
-func generatedOpponentPetID() string {
-	raw := fmt.Sprintf("%s-2-2-%d", generatedOpponentQQ, time.Now().UnixMilli())
-	return base64.RawStdEncoding.EncodeToString([]byte(raw))
 }
 
 func effectivePower(power, ownType, opponentType int64) int64 {

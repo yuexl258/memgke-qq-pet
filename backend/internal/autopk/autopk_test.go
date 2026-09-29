@@ -3,7 +3,6 @@ package autopk
 import (
 	"context"
 	"database/sql"
-	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -379,7 +378,41 @@ func TestSchedulerRunsInternalPetBeforeEachRegularPKWithoutCountingOrLogging(t *
 	}
 }
 
-func TestSchedulerUsesGeneratedOpponentForDailyTen(t *testing.T) {
+func TestSchedulerUsesStrangerPoolForDailyTen(t *testing.T) {
+	db, bindingID := openTestDB(t)
+	defer db.Close()
+	addCandidate(t, db, bindingID, "200001", "pet-a")
+	if _, err := db.Exec(`INSERT INTO pet_auto_pk_internal_pets (user_id, pet_id) VALUES ('900001', 'internal-pet')`); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := db.Exec(`INSERT INTO pet_auto_pk_configs (qq_binding_id, enabled, target_starts, start_time) VALUES (?, 1, 10, '00:00')`, bindingID); err != nil {
+		t.Fatal(err)
+	}
+	client := &fakeClient{powers: map[string]json.RawMessage{"pet-a": json.RawMessage(`{"power":80,"dominant_type":2}`)}}
+	scheduler := newTestScheduler(db, client)
+	item := &worker{}
+	for i := 0; i < 3; i++ {
+		if !scheduler.runBindingWorker(context.Background(), bindingID, "123456", item) {
+			t.Fatalf("第 %d 轮不应停止调度", i+1)
+		}
+	}
+	if want := []string{"self-pet:900001:internal-pet", "self-pet:200001:pet-a"}; !reflect.DeepEqual(client.started, want) {
+		t.Fatalf("每日目标为 10 时应先与内部宠物 PK，再从陌生人库选择对手，实际 %#v", client.started)
+	}
+	var count int64
+	if err := db.QueryRow(`SELECT successful_starts FROM pet_auto_pk_states WHERE qq_binding_id = ?`, bindingID).Scan(&count); err != nil {
+		t.Fatal(err)
+	}
+	if count != 1 {
+		t.Fatalf("内部 PK 不计数，陌生人 PK 应计为 1 次，实际 %d", count)
+	}
+	logs, err := LoadLogs(context.Background(), db, bindingID, 20)
+	if err != nil || len(logs) != 1 || logs[0].Message != "PK已提交" || logs[0].OpponentUserID != "200001" {
+		t.Fatalf("PK 日志应只显示 PK已提交，logs=%#v err=%v", logs, err)
+	}
+}
+
+func TestSchedulerDoesNotGenerateOpponentWhenStrangerPoolIsEmpty(t *testing.T) {
 	db, bindingID := openTestDB(t)
 	defer db.Close()
 	if _, err := db.Exec(`INSERT INTO pet_auto_pk_configs (qq_binding_id, enabled, target_starts, start_time) VALUES (?, 1, 10, '00:00')`, bindingID); err != nil {
@@ -388,34 +421,17 @@ func TestSchedulerUsesGeneratedOpponentForDailyTen(t *testing.T) {
 	client := &fakeClient{}
 	scheduler := newTestScheduler(db, client)
 	item := &worker{}
-	if !scheduler.runBindingWorker(context.Background(), bindingID, "123456", item) {
-		t.Fatal("第一轮应提交 PK")
+	for i := 0; i < 3; i++ {
+		if !scheduler.runBindingWorker(context.Background(), bindingID, "123456", item) {
+			t.Fatalf("第 %d 轮不应停止调度", i+1)
+		}
 	}
-	if len(client.started) != 1 {
-		t.Fatalf("应提交一场 PK，实际 %#v", client.started)
+	if len(client.started) != 0 {
+		t.Fatalf("陌生人库为空时不能生成对手，实际 %#v", client.started)
 	}
-	parts := strings.Split(client.started[0], ":")
-	if len(parts) != 3 || parts[1] != "2587495862" {
-		t.Fatalf("应使用固定对手 QQ，实际 %#v", client.started)
-	}
-	decoded, err := base64.RawStdEncoding.DecodeString(parts[2])
-	if err != nil {
-		t.Fatalf("生成的 pet_id 不是无填充 Base64，实际 %q: %v", parts[2], err)
-	}
-	value := string(decoded)
-	if !strings.HasPrefix(value, "2587495862-2-2-") || len(strings.TrimPrefix(value, "2587495862-2-2-")) != 13 {
-		t.Fatalf("解码后的 pet_id 格式不正确，实际 %q", value)
-	}
-	var count int64
-	if err := db.QueryRow(`SELECT successful_starts FROM pet_auto_pk_states WHERE qq_binding_id = ?`, bindingID).Scan(&count); err != nil {
-		t.Fatal(err)
-	}
-	if count != 1 {
-		t.Fatalf("正式 PK 次数应计为 1，实际 %d", count)
-	}
-	logs, err := LoadLogs(context.Background(), db, bindingID, 20)
-	if err != nil || len(logs) != 1 || logs[0].Message != "PK已提交" {
-		t.Fatalf("PK 日志应只显示 PK已提交，logs=%#v err=%v", logs, err)
+	state, err := LoadState(context.Background(), db, bindingID)
+	if err != nil || state.TodayStarts != 0 || state.Message != "库内陌生人PK完成" {
+		t.Fatalf("陌生人库为空时状态不正确: %#v, err=%v", state, err)
 	}
 }
 

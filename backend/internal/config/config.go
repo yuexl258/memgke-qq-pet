@@ -22,7 +22,7 @@ type Config struct {
 func Load() Config {
 	return Config{
 		Addr:           envString("APP_ADDR", ":8080"),
-		Version:        envString("APP_VERSION", "1.0.0"),
+		Version:        envString("APP_VERSION", "1.0.1"),
 		Environment:    envString("APP_ENV", "development"),
 		DatabasePath:   envString("DATABASE_PATH", "./data/qq-pet.db"),
 		FrontendOrigin: envString("FRONTEND_ORIGIN", "http://localhost:5173"),

@@ -2,6 +2,8 @@
 
 一个面向 QQ 宠物的 Web 管理平台。项目提供用户与钱包体系、QQ 账号接入、宠物资料与互动、自动托管、自动 PK，以及配套的后台管理能力。
 
+本系统的 QQ 宠物接入后台框架为 [萌卡 NT（Mengka-NT）](https://mknt.net/)，通过其节点与接口提供相关能力；本仓库实现独立的 Go 管理服务和 Vue 前端，需要配置可用的萌卡 NT 服务才能使用相关功能。
+
 > [!IMPORTANT]
 > 本项目仍在持续开发中，接口和数据结构可能发生变化。涉及 QQ 账号、Token、Cookie 等敏感信息时，请仅在可信环境中部署，并在使用前自行评估风险。
 
@@ -36,7 +38,7 @@ flowchart LR
     B[浏览器] -->|HTTP / WebSocket| F[Vue 3 前端]
     F -->|REST API / 反向代理| S[Go 服务端]
     S -->|database/sql| D[(SQLite)]
-    S -->|WebSocket| M[萌卡兼容节点]
+    S -->|WebSocket / API| M[萌卡 NT 节点]
     S -->|通知| Q[QQ 官方机器人]
 ```
 
@@ -177,7 +179,7 @@ go build -trimpath -o qq-pet-server.exe ./cmd/server
 cd frontend
 npm ci
 npm run build
-go build -trimpath -ldflags "-s -w -X main.version=1.0.0" -o qq-pet-frontend.exe .
+go build -trimpath -ldflags "-s -w -X main.version=1.0.1" -o qq-pet-frontend.exe .
 ```
 
 交叉编译时可按目标平台设置 `GOOS` 和 `GOARCH`。SQLite 驱动不依赖 CGO。
@@ -215,9 +217,9 @@ npm run build
 
 ## 致谢与项目关系
 
-本项目在 QQ 机器人接入思路、功能设计和使用体验等方面借鉴了 [萌卡 NT（Mengka-NT）](https://github.com/Carlor-Official/Mengka-NT)。感谢原项目作者及贡献者的探索与开源分享。
+本系统的 QQ 宠物后台接入基于 [萌卡 NT（Mengka-NT）](https://mknt.net/)；其[开源项目](https://github.com/Carlor-Official/Mengka-NT)提供了相关接口与节点能力。感谢原项目作者及贡献者的探索与开源分享。
 
-本项目为独立实现，并非萌卡 NT 官方项目或官方分支。使用、修改或分发相关项目内容时，请分别遵守各自仓库的开源许可证；“QQ”等名称及相关商标归其权利人所有。
+本仓库的管理服务和前端为独立实现，并非萌卡 NT 官方项目或官方分支。使用、修改或分发相关项目内容时，请分别遵守各自仓库的开源许可证；“QQ”等名称及相关商标归其权利人所有。
 
 ## 免责声明
 
