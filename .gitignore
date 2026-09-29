@@ -8,6 +8,11 @@
 !backend/**
 !frontend/
 !frontend/**
+!Dockerfile
+!docker-compose.yml
+!.dockerignore
+!.env.docker.example
+!pet-pk-strangers.txt
 
 # Runtime data and secrets
 **/data/
@@ -47,3 +52,6 @@ frontend/qq-pet-frontend
 .vscode/
 .DS_Store
 Thumbs.db
+
+# Container setup template and bundled PK source data
+!.env.docker.example

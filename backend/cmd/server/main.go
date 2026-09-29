@@ -30,9 +30,7 @@ func main() {
 	cfg := config.Load()
 	logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo}))
 
-	const databasePath = "./data/qq-pet.db"
-	cfg.DatabasePath = databasePath
-	db, err := database.Open(databasePath)
+	db, err := database.Open(cfg.DatabasePath)
 	if err != nil {
 		logger.Error("database initialization failed", "error", err)
 		os.Exit(1)
@@ -101,12 +99,15 @@ func loadOrInitializeAddress(db *sql.DB, cfg *config.Config, reader *bufio.Reade
 	var address string
 	err := db.QueryRow("SELECT setting_value FROM system_settings WHERE setting_key = 'app_addr'").Scan(&address)
 	if errors.Is(err, sql.ErrNoRows) || strings.TrimSpace(address) == "" {
-		var port int
-		port, err = readPort(reader)
-		if err != nil {
-			return err
+		address = strings.TrimSpace(os.Getenv("APP_ADDR"))
+		if address == "" {
+			var port int
+			port, err = readPort(reader)
+			if err != nil {
+				return err
+			}
+			address = ":" + strconv.Itoa(port)
 		}
-		address = ":" + strconv.Itoa(port)
 		if _, err := db.Exec("INSERT INTO system_settings (setting_key, setting_value) VALUES ('app_addr', ?)", address); err != nil {
 			return err
 		}
@@ -128,13 +129,18 @@ func loadOrInitializeAdmin(db *sql.DB, cfg *config.Config, reader *bufio.Reader)
 	if count > 0 {
 		return nil
 	}
-	username, err := readValue(reader, "请输入管理员用户: ")
-	if err != nil {
-		return err
-	}
-	password, err := readValue(reader, "请输入管理员密码: ")
-	if err != nil {
-		return err
+	username := strings.TrimSpace(os.Getenv("ADMIN_USERNAME"))
+	password := strings.TrimSpace(os.Getenv("ADMIN_PASSWORD"))
+	if username == "" || password == "" {
+		var err error
+		username, err = readValue(reader, "请输入管理员用户: ")
+		if err != nil {
+			return err
+		}
+		password, err = readValue(reader, "请输入管理员密码: ")
+		if err != nil {
+			return err
+		}
 	}
 	return auth.EnsureAdmin(db, username, password)
 }

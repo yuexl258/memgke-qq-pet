@@ -1,0 +1,37 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: backend
+    environment:
+      APP_ADDR: ":2345"
+      APP_ENV: production
+      DATABASE_PATH: /app/data/qq-pet.db
+      FRONTEND_ORIGIN: http://localhost:5173
+      ADMIN_USERNAME: ${ADMIN_USERNAME:?Set ADMIN_USERNAME in .env}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?Set ADMIN_PASSWORD in .env}
+    volumes:
+      - qq-pet-data:/app/data
+    ports:
+      - "2345:2345"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: frontend
+    environment:
+      BACKEND_URL: http://backend:2345
+      FRONTEND_HOST: 0.0.0.0
+      FRONTEND_PORT: 5173
+      NO_OPEN: "1"
+    depends_on:
+      - backend
+    ports:
+      - "5173:5173"
+    restart: unless-stopped
+
+volumes:
+  qq-pet-data:

@@ -182,6 +182,24 @@ go build -trimpath -ldflags "-s -w -X main.version=1.0.0" -o qq-pet-frontend.exe
 
 交叉编译时可按目标平台设置 `GOOS` 和 `GOARCH`。SQLite 驱动不依赖 CGO。
 
+## Docker 部署
+
+Docker Compose 会启动后端 API 和前端服务，SQLite 数据保存在 `qq-pet-data` 命名卷中。先复制配置模板并修改管理员密码：
+
+```powershell
+Copy-Item .env.docker.example .env
+# 编辑 .env，至少修改 ADMIN_PASSWORD
+docker compose up -d --build
+```
+
+启动后访问 `http://localhost:5173`。后端 API 默认映射到 `http://localhost:2345`。停止服务：
+
+```powershell
+docker compose down
+```
+
+`pet-pk-strangers.txt` 位于仓库根目录，可按项目需要导入陌生人宠物数据。
+
 ## 测试与检查
 
 ```powershell
