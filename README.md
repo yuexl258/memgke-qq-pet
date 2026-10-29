@@ -138,7 +138,7 @@ go build -trimpath -o drae-pet-server.exe ./cmd/server
 cd ../frontend
 npm ci
 npm run build
-go build -trimpath -ldflags "-s -w -X main.version=1.0.1" -o ../drae-pet-frontend.exe .
+go build -trimpath -ldflags "-s -w -X main.version=1.0.2" -o ../drae-pet-frontend.exe .
 ~~~
 
 ## Docker 部署
