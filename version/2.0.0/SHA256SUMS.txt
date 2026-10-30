@@ -1,0 +1,2 @@
+015dc960f02f190848f88c1fe51b49797720a9c8285774d3e842a00210b6d3fa  drae-pet-2.0.0-windows-amd64.zip
+b3922484ab83b03c402e9bd4ec08e51c8e6ed3bceb50d95313aad42561e2bb5a  drae-pet-2.0.0-linux-amd64.tar.gz
