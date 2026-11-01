@@ -1,13 +1,13 @@
 # Drae 宠物乐园
 
-当前发布版本：**2.0.0**。
+当前发布版本：**2.1.0**。
 
-- [查看 2.0.0 Release 与更新说明](https://github.com/yuexl258/memgke-qq-pet/releases/tag/v2.0.0)
-- [下载 Windows x64（含前后端）](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.0.0/drae-pet-2.0.0-windows-amd64.zip)
-- [下载 Linux x64（含前后端）](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.0.0/drae-pet-2.0.0-linux-amd64.tar.gz)
-- [完整更新日志](CHANGELOG_2.0.0.md) · [验证记录与已知限制](version/2.0.0/VALIDATION.md) · [SHA-256 校验](version/2.0.0/SHA256SUMS.txt)
+- [查看 2.1.0 Release 与更新说明](https://github.com/yuexl258/memgke-qq-pet/releases/tag/v2.1.0)
+- [下载 Windows x64（含前后端）](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.1.0/drae-pet-2.1.0-windows-amd64.zip)
+- [下载 Linux x64（含前后端）](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.1.0/drae-pet-2.1.0-linux-amd64.tar.gz)
+- [完整更新日志](CHANGELOG_2.1.0.md) · [SHA-256 校验](version/2.1.0/SHA256SUMS.txt)
 
-福袋功能仍为试验性接入，完整后端测试存在未通过项目，详情见验证记录。
+由于二开版本过多，所以采用闭源方式发布，但是允许运营。
 
 ![Drae 宠物乐园](icon.png)
 
@@ -147,7 +147,7 @@ go build -trimpath -o drae-pet-server.exe ./cmd/server
 cd ../frontend
 npm ci
 npm run build
-go build -trimpath -ldflags "-s -w -X main.version=2.0.0" -o ../drae-pet-frontend.exe .
+go build -trimpath -ldflags "-s -w -X main.version=2.1.0" -o ../drae-pet-frontend.exe .
 ~~~
 
 ## Docker 部署
