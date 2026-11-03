@@ -1,4 +1,4 @@
-# Drae 宠物乐园 2.2.0
+# Drae 宠物乐园 2.2.1
 
 QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园。
 
@@ -16,20 +16,17 @@ QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园
 
 ## 本版更新
 
-- 自动控制各模块独立开关、分页及日志，运行状态更直观。
-- WS 每分钟重连，完善心跳检测；账号恢复在线后自动恢复因掉线暂停的功能。
-- 自动福袋改为每 5 分钟扫描，修复自动踩一踩，优化宠物资料加载。
-- 适配最新 NTLogin / WTLogin 登录与离线编辑，删除 QQ 同步删除框架账号。
-- 新增个人专属设备指纹：每位用户最多 5 个，支持独立生成、绑定时自动生成及重命名，不允许移除。
-- 支持自己与指定好友宠物的阈值照料，用品不足自动购买。
-- 手动及计划打工支持随机、指定雇佣，雇佣优先发包，失败后自动普通打工。
+- 修复新版萌卡 NT 删除 `get_node_list` 后，添加账号误报“节点尚未连接”的问题。
+- 节点列表改由本地配置提供；多节点按 QQ 绑定关系分发请求。
+- 仅支持 Android 宠物协议；排行榜接口在后端对 QQ 号脱敏。
+- 精简页面文案，优化毛玻璃效果与手机端布局。
 
-详细内容见 [2.2.0 更新日志](CHANGELOG_2.2.0.md)。
+详细内容见 [2.2.1 更新日志](CHANGELOG_2.2.1.md)。
 
 ## 下载
 
-- [Windows x64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.2.0/drae-pet-2.2.0-windows-amd64.zip)
-- [Linux x64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.2.0/drae-pet-2.2.0-linux-amd64.tar.gz)
+- [Windows x64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.2.1/drae-pet-2.2.1-windows-amd64.zip)
+- [Linux x64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.2.1/drae-pet-2.2.1-linux-amd64.tar.gz)
 - [所有版本](https://github.com/yuexl258/memgke-qq-pet/releases)
 
 ## 文件说明
@@ -51,8 +48,8 @@ QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园
 ## Linux 启动
 
 ```sh
-tar -xzf drae-pet-2.2.0-linux-amd64.tar.gz
-cd drae-pet-2.2.0-linux-amd64
+tar -xzf drae-pet-2.2.1-linux-amd64.tar.gz
+cd drae-pet-2.2.1-linux-amd64
 sh start-server.sh
 # 另一个终端进入同一目录
 sh start-frontend.sh
