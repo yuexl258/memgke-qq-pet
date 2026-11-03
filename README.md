@@ -1,190 +1,87 @@
-# Drae 宠物乐园
+# Drae 宠物乐园 2.2.0
 
-当前发布版本：**2.1.0**。
-
-- [查看 2.1.0 Release 与更新说明](https://github.com/yuexl258/memgke-qq-pet/releases/tag/v2.1.0)
-- [下载 Windows x64（含前后端）](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.1.0/drae-pet-2.1.0-windows-amd64.zip)
-- [下载 Linux x64（含前后端）](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.1.0/drae-pet-2.1.0-linux-amd64.tar.gz)
-- [完整更新日志](CHANGELOG_2.1.0.md) · [SHA-256 校验](version/2.1.0/SHA256SUMS.txt)
-
-由于二开版本过多，所以采用闭源方式发布，但是允许运营。
+QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园。
 
 ![Drae 宠物乐园](icon.png)
 
-Drae 宠物乐园是一个面向 QQ 宠物的 Web 陪伴平台，提供宠物资料、日常照料、好友互动、宠物 PK、自动托管和乐园管理功能。项目采用 Vue 3 前端、Go 服务端和 SQLite 数据库，并通过 [萌卡 NT ](https://mengka.net/) 连接 QQ 宠物节点。
+> ## ☁️ 服务器赞助商：鸿梦云
+>
+> **[点击访问鸿梦云，获取云服务器支持](https://hmyun.com.cn/?i93d950)**
+>
+> 感谢鸿梦云对 Drae 宠物乐园的服务器赞助。
 
-> [!IMPORTANT]
-> 项目仍在持续开发，接口和数据结构可能调整。请在可信环境中保存 QQ 账号、Token、Cookie 和管理员凭据，并遵守所在地法律法规及相关平台服务协议。
+交流群：**1130029070**
 
-## 服务器赞助商
+由于二开版本过多，所以采用闭源方式发布，但是允许运营。
 
-<div align="center">
+## 本版更新
 
-### ☁️ 感谢鸿梦云对 Drae 宠物乐园的服务器赞助
+- 自动控制各模块独立开关、分页及日志，运行状态更直观。
+- WS 每分钟重连，完善心跳检测；账号恢复在线后自动恢复因掉线暂停的功能。
+- 自动福袋改为每 5 分钟扫描，修复自动踩一踩，优化宠物资料加载。
+- 适配最新 NTLogin / WTLogin 登录与离线编辑，删除 QQ 同步删除框架账号。
+- 新增个人专属设备指纹：每位用户最多 5 个，支持独立生成、绑定时自动生成及重命名，不允许移除。
+- 支持自己与指定好友宠物的阈值照料，用品不足自动购买。
+- 手动及计划打工支持随机、指定雇佣，雇佣优先发包，失败后自动普通打工。
 
-**稳定服务器，让每一位伙伴都能安心回家。**
+详细内容见 [2.2.0 更新日志](CHANGELOG_2.2.0.md)。
 
-[![鸿梦云服务器赞助商](https://img.shields.io/badge/服务器赞助商-鸿梦云-1677ff?style=for-the-badge&logo=serverless&logoColor=white)](https://hmyun.com.cn/?i93d950)
+## 下载
 
-**[点击访问鸿梦云，获取云服务器支持](https://hmyun.com.cn/?i93d950)**
+- [Windows x64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.2.0/drae-pet-2.2.0-windows-amd64.zip)
+- [Linux x64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.2.0/drae-pet-2.2.0-linux-amd64.tar.gz)
+- [所有版本](https://github.com/yuexl258/memgke-qq-pet/releases)
 
-</div>
+## 文件说明
 
-## 交流群
+- `drae-pet-server`：后端 API 服务，Windows 下以 `.exe` 结尾。
+- `drae-pet-frontend`：内嵌网页的独立前端服务，代理 `/api`、`/healthz` 和 `/ws` 请求至后端。
+- `start-server` / `start-frontend`：对应平台的启动脚本。
+- `SHA256SUMS.txt`：文件校验值。
 
-欢迎加入 Drae 宠物乐园交流群：**1130029070**
+程序不依赖 Node.js 或 Go 开发环境，发行包不包含运行数据库或预置账号。
 
-## 功能
+## Windows 启动
 
-### 用户端
+1. 将 ZIP 完整解压至可写目录。
+2. 双击 `start-server.cmd`，首次启动按提示设置端口、管理员用户名与密码；建议端口 `2345`。
+3. 双击 `start-frontend.cmd`，浏览器访问 <http://127.0.0.1:5173>。
+4. 在管理端配置萌卡 NT 节点；用户先生成专属指纹，或在绑定 QQ 时选择自动生成。
 
-- 注册、登录、会话恢复和密码修改
-- QQ 账号绑定、登录、续期和安全验证
-- 宠物资料、职业、状态、每日统计和战力排行
-- 喂食、洗护、互动、学习、工作和冒险
-- 好友列表、好友宠物资料和串门互动
-- 宠物 PK，以及优先挑战可战胜好友的自动 PK
-- 自动照料、自动喂食、自动洗护和被雇佣后自动召回
-- 每日好友串门、活动记录、乐园公告和金币钱包
+## Linux 启动
 
-### 管理端
+```sh
+tar -xzf drae-pet-2.2.0-linux-amd64.tar.gz
+cd drae-pet-2.2.0-linux-amd64
+sh start-server.sh
+# 另一个终端进入同一目录
+sh start-frontend.sh
+```
 
-- 乐园总览
-- 成员、角色、状态和钱包管理
-- QQ 账号绑定、服务套餐和服务期限管理
-- 金币卡密生成、查询和统计
-- 乐园公告、消息提醒和操作日志
-- 乐园设置、萌卡 NT 节点连接和服务状态
+首次启动后端时按提示设置端口及管理员凭据。二进制及脚本已设置执行权限，也可直接使用 `./start-server.sh` 和 `./start-frontend.sh`。
 
-## 项目架构
+## 服务配置
 
-~~~mermaid
-flowchart LR
-    B[浏览器] -->|HTTP / WebSocket| F[Vue 3 前端]
-    F -->|REST API / 反向代理| S[Go 服务端]
-    S -->|database/sql| D[(SQLite)]
-    S -->|最新 NT API| M[萌卡 NT 节点]
-    S -->|可选通知| Q[QQ 官方机器人]
-~~~
+前端默认监听 `127.0.0.1:5173`，代理至 `http://127.0.0.1:2345`。后端使用其他端口时设置 `BACKEND_URL`；服务器部署可设置 `FRONTEND_HOST=0.0.0.0`，或通过反向代理访问。
 
-发布版前端是一个轻量 Go 启动器，内嵌 Vue 构建产物，并将 /api、/healthz 和 /ws 请求代理到服务端。
-
-## 技术栈
-
-| 模块 | 技术 |
+| 环境变量 | 作用 |
 | --- | --- |
-| 服务端 | Go、Chi、database/sql |
-| 数据库 | SQLite（modernc.org/sqlite，无需 CGO） |
-| 鉴权 | HttpOnly Cookie Session、bcrypt |
-| 实时通信 | Gorilla WebSocket |
-| 前端 | Vue 3、TypeScript、Vite |
-| UI 与状态 | Element Plus、Pinia、Vue Router |
+| `BACKEND_URL` | 后端地址，默认 `http://127.0.0.1:2345` |
+| `FRONTEND_HOST` | 前端监听地址，默认 `127.0.0.1` |
+| `FRONTEND_PORT` | 前端端口，默认 `5173` |
+| `NO_OPEN` | 设为 `0` 时尝试自动打开浏览器 |
+| `DATABASE_PATH` | 数据库位置，默认 `./data/qq-pet.db` |
+| `APP_ADDR` | 空数据库首次初始化的后端地址，如 `:2345` |
+| `ADMIN_USERNAME` / `ADMIN_PASSWORD` | 首次创建管理员使用，未设置则终端提示输入 |
 
-## 目录结构
+启动脚本将工作目录固定在解压目录。后续启动读取数据库内保存的监听地址和账号配置。
 
-~~~text
-Drae-pet/
-├─ backend/
-│  ├─ cmd/server/                 # Go 服务端入口
-│  ├─ internal/                   # 认证、管理、自动照料、自动 PK、节点适配和 API
-│  └─ data/                       # 运行时数据库（不要提交）
-├─ frontend/
-│  ├─ public/                     # 品牌图标和静态资源
-│  ├─ src/                        # API、组件、布局、路由、状态和页面
-│  └─ package.json
-├─ icon.png                       # Drae 宠物乐园品牌图标
-└─ README.md
-~~~
+## 从旧版升级
 
-## 环境要求
+1. 停止旧版前后端，备份整个 `data` 目录。
+2. 将新版本解压到独立目录，把原服务端实际使用的 `data` 目录复制到新目录。
+3. 启动新版后端，数据库迁移自动执行；随后启动新版前端并刷新浏览器。
+4. 核对自动控制开关、每日计划和照料设置。选择打工雇佣方式或修改每日计划后，点击保存计划。
+5. 原来使用共享指纹的 QQ，再次登录前先生成自己的专属指纹，下线后通过“修改账号”选择指纹并完整填写配置。已在线账号不会自动更换指纹。
 
-- Go 1.26 或更高版本
-- Node.js 20.19+ 或 22.12+
-- npm
-
-## 从源码运行
-
-### 启动服务端
-
-~~~powershell
-cd backend
-go mod download
-go run ./cmd/server
-~~~
-
-首次启动会要求输入服务端监听地址、初始管理员用户名和密码。配置保存于 backend/data/qq-pet.db，后续启动会直接读取。
-
-### 启动前端
-
-~~~powershell
-cd frontend
-npm ci
-npm run dev
-~~~
-
-浏览器访问 http://127.0.0.1:5173。开发代理默认将 /api、/healthz 和 /ws 转发到 http://127.0.0.1:2345。
-
-## 发布版运行
-
-~~~powershell
-# 终端 1
-./drae-pet-server.exe
-
-# 终端 2
-$env:FRONTEND_PORT = "5173"
-$env:NO_OPEN = "0"
-./drae-pet-frontend.exe
-~~~
-
-前端启动器支持 BACKEND_URL、FRONTEND_HOST、FRONTEND_PORT 和 NO_OPEN 环境变量。SQLite 默认写入服务端工作目录下的 ./data/qq-pet.db，请定期备份 data 目录。
-
-## 构建
-
-~~~powershell
-cd backend
-go build -trimpath -o drae-pet-server.exe ./cmd/server
-
-cd ../frontend
-npm ci
-npm run build
-go build -trimpath -ldflags "-s -w -X main.version=2.1.0" -o ../drae-pet-frontend.exe .
-~~~
-
-## Docker 部署
-
-~~~powershell
-Copy-Item .env.docker.example .env
-# 编辑 .env，至少修改 ADMIN_PASSWORD
-docker compose up -d --build
-~~~
-
-启动后访问 http://localhost:5173，后端 API 默认映射到 http://localhost:2345。停止服务：docker compose down。
-
-## 测试
-
-~~~powershell
-cd backend
-go test ./...
-
-cd ../frontend
-npm test
-npm run build
-~~~
-
-后端测试覆盖认证、数据库迁移、钱包、服务端接口、自动照料和自动 PK 等核心模块；前端通过类型检查、单元测试和生产构建进行基础验证。
-
-## 致谢
-
-Drae 宠物乐园的 QQ 宠物接入基于 [萌卡 NT（Mengka-NT）](https://mengka.net/nt/api/)，感谢原项目作者及贡献者的开源分享。
-
-特别感谢服务器赞助商 [鸿梦云](https://hmyun.com.cn/?i93d950) 对 Drae 宠物乐园的支持。
-
-本仓库是独立实现，并非萌卡 NT 官方项目或官方分支。使用、修改或分发相关项目内容时，请分别遵守各自仓库的开源许可证；“QQ”等名称及相关商标归其权利人所有。
-
-## 免责声明
-
-本项目仅供学习、研究和技术交流使用，不提供可用性、稳定性或账号安全保证。使用者应自行承担部署和使用风险，并遵守所在地法律法规及相关平台服务协议。请勿将本项目用于破坏服务、侵犯他人权益或其他违法违规用途。
-
-## 发布说明
-
-由于 Drae 宠物乐园存在较多二开版本，为避免版本分散和维护困难，当前版本采用闭源方式发布；允许个人或团队进行合法运营，但请保留 Drae 宠物乐园品牌信息，并遵守相关法律法规及平台服务协议。
+需要回退时同时恢复旧程序和升级前备份的数据库。
