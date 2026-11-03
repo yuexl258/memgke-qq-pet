@@ -21,7 +21,7 @@ QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园
 - 仅支持 Android 宠物协议；排行榜接口在后端对 QQ 号脱敏。
 - 精简页面文案，优化毛玻璃效果与手机端布局。
 
-详细内容见 [2.2.1 更新日志](CHANGELOG_2.2.1.md)。
+详细内容见 [2.2.1 更新日志](https://github.com/yuexl258/memgke-qq-pet/blob/main/CHANGELOG_2.2.1.md)。
 
 ## 下载
 
@@ -29,37 +29,56 @@ QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园
 - [Linux x64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.2.1/drae-pet-2.2.1-linux-amd64.tar.gz)
 - [所有版本](https://github.com/yuexl258/memgke-qq-pet/releases)
 
-## 文件说明
+## 解压后的文件
 
-- `drae-pet-server`：后端 API 服务，Windows 下以 `.exe` 结尾。
-- `drae-pet-frontend`：内嵌网页的独立前端服务，代理 `/api`、`/healthz` 和 `/ws` 请求至后端。
-- `start-server` / `start-frontend`：对应平台的启动脚本。
-- `SHA256SUMS.txt`：文件校验值。
+- `drae-pet-server.exe` / `drae-pet-server`：后端服务，保存账号、配置和数据库。
+- `drae-pet-frontend.exe` / `drae-pet-frontend`：内嵌网页的前端服务，将 `/api`、`/healthz` 和 `/ws` 转发给后端。
+- `start-server.cmd` / `start-server.sh`：启动后端。
+- `start-frontend.cmd` / `start-frontend.sh`：启动前端。
+- `SHA256SUMS.txt`：解压目录内文件的校验值；Release 页面另附两个压缩包的校验值。
 
-程序不依赖 Node.js 或 Go 开发环境，发行包不包含运行数据库或预置账号。
+两个服务都要运行，且应从**解压后的文件夹**启动；不要在压缩包预览窗口里直接运行。程序不需要安装 Node.js 或 Go。首次启动会在解压目录创建 `data/qq-pet.db`，请将文件夹放在有写入权限的位置。
 
-## Windows 启动
+## Windows：首次运行
 
-1. 将 ZIP 完整解压至可写目录。
-2. 双击 `start-server.cmd`，首次启动按提示设置端口、管理员用户名与密码；建议端口 `2345`。
-3. 双击 `start-frontend.cmd`，浏览器访问 <http://127.0.0.1:5173>。
-4. 在管理端配置萌卡 NT 节点；用户先生成专属指纹，或在绑定 QQ 时选择自动生成。
+1. 下载 Windows ZIP，右键“全部解压”。打开解压后含有 `start-server.cmd` 的文件夹。
+2. 双击 `start-server.cmd`。首次运行依次输入服务端口号、管理员用户名、管理员密码；端口建议填 **2345**。看到 `server started` 后保留这个窗口。
+3. 双击 `start-frontend.cmd`，保留第二个窗口。看到“Frontend 2.2.1 已启动”后，在浏览器打开 <http://127.0.0.1:5173>。
+4. 用刚设置的管理员账号登录。先在管理后台配置正在运行的萌卡 NT 节点，再让用户生成专属指纹并添加 QQ。
 
-## Linux 启动
+每次重启都按“后端 → 前端”的顺序运行两个脚本。后端使用已有数据库时会读取已保存的端口和管理员账号，不再重复初始化。要停止服务，可在两个命令窗口分别按 `Ctrl+C`。
+
+## Linux：首次运行
+
+在存放压缩包的目录执行：
 
 ```sh
 tar -xzf drae-pet-2.2.1-linux-amd64.tar.gz
 cd drae-pet-2.2.1-linux-amd64
-sh start-server.sh
-# 另一个终端进入同一目录
-sh start-frontend.sh
+./start-server.sh
 ```
 
-首次启动后端时按提示设置端口及管理员凭据。二进制及脚本已设置执行权限，也可直接使用 `./start-server.sh` 和 `./start-frontend.sh`。
+首次运行依次输入端口号（建议 **2345**）、管理员用户名、管理员密码。看到 `server started` 后，保持这个终端运行；在**另一个终端**进入同一解压目录并启动前端：
+
+```sh
+cd drae-pet-2.2.1-linux-amd64
+./start-frontend.sh
+```
+
+在服务器本机打开 <http://127.0.0.1:5173>，登录后到管理后台配置萌卡 NT 节点。启动脚本及二进制在压缩包内已设置执行权限；如果解压方式丢失权限，可运行 `chmod +x start-server.sh start-frontend.sh drae-pet-server drae-pet-frontend`。用 `Ctrl+C` 停止对应服务。
 
 ## 服务配置
 
-前端默认监听 `127.0.0.1:5173`，代理至 `http://127.0.0.1:2345`。后端使用其他端口时设置 `BACKEND_URL`；服务器部署可设置 `FRONTEND_HOST=0.0.0.0`，或通过反向代理访问。
+前端默认监听 `127.0.0.1:5173`，代理至 `http://127.0.0.1:2345`。首次启动后端时若选择了其他端口，例如 `8080`，需要在启动前端的**同一个终端**设置 `BACKEND_URL`：
+
+在解压目录的地址栏输入 `cmd` 打开命令提示符，再执行：
+
+```bat
+set BACKEND_URL=http://127.0.0.1:8080
+start-frontend.cmd
+```
+
+Linux 对应命令：`BACKEND_URL=http://127.0.0.1:8080 ./start-frontend.sh`。远程访问时，将 `FRONTEND_HOST` 设为 `0.0.0.0`，浏览器访问 `http://服务器IP:5173`，并放通前端端口；也可以通过反向代理访问。
 
 | 环境变量 | 作用 |
 | --- | --- |
