@@ -1,4 +1,4 @@
-# Drae 宠物乐园 2.3.0
+# Drae 宠物乐园 2.3.1
 
 QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园。
 
@@ -41,20 +41,20 @@ QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园
 
 ## 本版更新
 
-- 登录与注册新增六位验证码，提升账号安全性。
-- 修复首次初始化钱包和宠物被雇佣后自动召回的问题。
-- 完善 QQ 官方机器人的连接、账号绑定、签到与金币查询功能。
-- 新增 Windows ARM64 和 Linux ARM64 安装包。
+- QQ 服务到期后立即关闭该账号的自动控制，并停止后续自动检查。
+- 到期处理会同步关闭自动活动、自动召回、自动照料、自动喂食、自动洗护、自动踩一踩和自动福袋。
+- 自动 PK 检测到服务到期后自动关闭并停止运行。
+- 提供 Windows x64、Windows ARM64、Linux x64、Linux ARM64 四种发行包。
 
-详细内容见 [2.3.0 更新日志](CHANGELOG_2.3.0.md)。
+详细内容见 [2.3.1 更新日志](CHANGELOG_2.3.1.md)。
 
 ## 下载
 
-- [Windows x64 安装包](version/2.3.0/drae-pet-2.3.0-windows-amd64.zip)
-- [Windows ARM64 安装包](version/2.3.0/drae-pet-2.3.0-windows-arm64.zip)
-- [Linux x64 安装包](version/2.3.0/drae-pet-2.3.0-linux-amd64.tar.gz)
-- [Linux ARM64 安装包](version/2.3.0/drae-pet-2.3.0-linux-arm64.tar.gz)
-- [安装包 SHA-256 校验值](version/2.3.0/SHA256SUMS.txt) · [所有版本](https://github.com/yuexl258/memgke-qq-pet/releases)
+- [Windows x64 安装包](version/2.3.1/drae-pet-2.3.1-windows-amd64.zip)
+- [Windows ARM64 安装包](version/2.3.1/drae-pet-2.3.1-windows-arm64.zip)
+- [Linux x64 安装包](version/2.3.1/drae-pet-2.3.1-linux-amd64.tar.gz)
+- [Linux ARM64 安装包](version/2.3.1/drae-pet-2.3.1-linux-arm64.tar.gz)
+- [安装包 SHA-256 校验值](version/2.3.1/SHA256SUMS.txt) · [所有版本](https://github.com/yuexl258/memgke-qq-pet/releases)
 
 ## 解压后的文件
 
@@ -70,7 +70,7 @@ QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园
 
 1. 下载 Windows ZIP，右键“全部解压”。打开解压后含有 `start-server.cmd` 的文件夹。
 2. 双击 `start-server.cmd`。首次运行依次输入服务端口号、管理员用户名、管理员密码；端口建议填 **2345**。看到 `server started` 后保留这个窗口。
-3. 双击 `start-frontend.cmd`，保留第二个窗口。看到“Frontend 2.3.0 已启动”后，在浏览器打开 <http://127.0.0.1:5173>。
+3. 双击 `start-frontend.cmd`，保留第二个窗口。看到“Frontend 2.3.1 已启动”后，在浏览器打开 <http://127.0.0.1:5173>。
 4. 用刚设置的管理员账号登录。先在管理后台配置正在运行的萌卡 NT 节点，再让用户生成专属指纹并添加 QQ。
 
 每次重启都按“后端 → 前端”的顺序运行两个脚本。后端使用已有数据库时会读取已保存的端口和管理员账号，不再重复初始化。要停止服务，可在两个命令窗口分别按 `Ctrl+C`。
@@ -80,15 +80,15 @@ QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园
 在存放压缩包的目录执行：
 
 ```sh
-tar -xzf drae-pet-2.3.0-linux-amd64.tar.gz
-cd drae-pet-2.3.0-linux-amd64
+tar -xzf drae-pet-2.3.1-linux-amd64.tar.gz
+cd drae-pet-2.3.1-linux-amd64
 ./start-server.sh
 ```
 
 首次运行依次输入端口号（建议 **2345**）、管理员用户名、管理员密码。看到 `server started` 后，保持这个终端运行；在**另一个终端**进入同一解压目录并启动前端：
 
 ```sh
-cd drae-pet-2.3.0-linux-amd64
+cd drae-pet-2.3.1-linux-amd64
 ./start-frontend.sh
 ```
 
