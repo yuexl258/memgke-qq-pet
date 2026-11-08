@@ -1,4 +1,4 @@
-# Drae 宠物乐园 2.5.0
+# Drae 宠物乐园 2.5.1
 
 QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园。
 
@@ -47,23 +47,21 @@ QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园
 
 ## 本版更新
 
-- 新增用户端布局，保留 Drae 品牌；管理端可统一设置用户端外观，并切换原版布局。
-- 好友列表优先使用数据库缓存，移除自动任务中的重复目录请求。
-- 好友踩一踩每天北京时间 00:00 开始，失败当天不再重试；好友 PK 每天 01:00 开始，PK 后不额外喂食或洗护。
-- 自动任务指令统一排队，网页手动操作直接提交，优化查询与页面加载等待。
-- 福袋每扫描 10 位好友就领取一批；网页逐批展示，可边扫描边领取。
-- 修复失效好友无法移出照料名单、召回后旧活动重复结算，以及原版手机端好友选择弹窗显示问题。
-- 自动任务执行日志仅保留当日记录，账号、配置及福袋收益数据继续保存。
+- 修复发行包遗漏公共脚本导致登录页空白、宠物小屋和部分管理页面无法打开的问题。
+- 修复 Linux 自动更新停留在等待退出、失败后无法重试等问题，保留前端启动配置和后端工作目录，并增加日志、更新锁和启动失败回退。
+- 更新页面等待新版本恢复后自动刷新，等待超时显示检查提示。
+- 经典乐园支持后台统一修改主题色、侧栏、间距、圆角、字号、内容宽度和欢迎语，并完善手机弹窗与主题隔离。
+- 新增可选备案号设置，填写后在页面底部显示并链接至工信部备案查询页。
+- 本版提供 Windows x64、Linux x64 和 Linux ARM64 安装包，不提供 Windows ARM64 包。
 
-详细内容见 [2.5.0 更新日志](https://github.com/yuexl258/memgke-qq-pet/blob/main/CHANGELOG_2.5.0.md)。
+详细内容见 [2.5.1 更新日志](https://github.com/yuexl258/memgke-qq-pet/blob/main/CHANGELOG_2.5.1.md)。
 
 ## 下载
 
-- [Windows x64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.5.0/drae-pet-2.5.0-windows-amd64.zip)
-- [Windows ARM64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.5.0/drae-pet-2.5.0-windows-arm64.zip)
-- [Linux x64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.5.0/drae-pet-2.5.0-linux-amd64.tar.gz)
-- [Linux ARM64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.5.0/drae-pet-2.5.0-linux-arm64.tar.gz)
-- [SHA-256 校验文件](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.5.0/SHA256SUMS.txt)
+- [Windows x64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.5.1/drae-pet-2.5.1-windows-amd64.zip)
+- [Linux x64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.5.1/drae-pet-2.5.1-linux-amd64.tar.gz)
+- [Linux ARM64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.5.1/drae-pet-2.5.1-linux-arm64.tar.gz)
+- [SHA-256 校验文件](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.5.1/SHA256SUMS.txt)
 - [所有版本](https://github.com/yuexl258/memgke-qq-pet/releases)
 
 ## 解压后的文件
@@ -80,7 +78,7 @@ QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园
 
 1. 下载 Windows ZIP，右键“全部解压”。打开解压后含有 `start-server.cmd` 的文件夹。
 2. 双击 `start-server.cmd`。首次运行依次输入服务端口号、管理员用户名、管理员密码；端口建议填 **2345**。看到 `server started` 后保留这个窗口。
-3. 双击 `start-frontend.cmd`，保留第二个窗口。看到“Frontend 2.5.0 已启动”后，在浏览器打开 <http://127.0.0.1:5173>。
+3. 双击 `start-frontend.cmd`，保留第二个窗口。看到“Frontend 2.5.1 已启动”后，在浏览器打开 <http://127.0.0.1:5173>。
 4. 用刚设置的管理员账号登录。先在管理后台配置正在运行的萌卡 NT 节点，再让用户生成专属指纹并添加 QQ。
 
 每次重启都按“后端 → 前端”的顺序运行两个脚本。后端使用已有数据库时会读取已保存的端口和管理员账号，不再重复初始化。要停止服务，可在两个命令窗口分别按 `Ctrl+C`。
@@ -90,19 +88,23 @@ QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园
 在存放压缩包的目录执行：
 
 ```sh
-tar -xzf drae-pet-2.5.0-linux-amd64.tar.gz
-cd drae-pet-2.5.0-linux-amd64
+tar -xzf drae-pet-2.5.1-linux-amd64.tar.gz
+cd drae-pet-2.5.1-linux-amd64
 ./start-server.sh
 ```
 
 首次运行依次输入端口号（建议 **2345**）、管理员用户名、管理员密码。看到 `server started` 后，保持这个终端运行；在**另一个终端**进入同一解压目录并启动前端：
 
 ```sh
-cd drae-pet-2.5.0-linux-amd64
+cd drae-pet-2.5.1-linux-amd64
 ./start-frontend.sh
 ```
 
 在服务器本机打开 <http://127.0.0.1:5173>，登录后到管理后台配置萌卡 NT 节点。启动脚本及二进制在压缩包内已设置执行权限；如果解压方式丢失权限，可运行 `chmod +x start-server.sh start-frontend.sh drae-pet-server drae-pet-frontend`。用 `Ctrl+C` 停止对应服务。
+
+Linux 解压版支持在管理后台下载并安装更新，两个服务应由同一用户使用启动脚本或 `nohup` 运行。更新助手会保留后端原工作目录及前端的 `BACKEND_URL`、`FRONTEND_HOST`、`FRONTEND_PORT` 和 `NO_OPEN`，停止前后端后替换程序，再按后端、前端的顺序启动；退出等待超过 30 秒会取消安装。安装提交后页面会等待新版本恢复并自动刷新，超过 3 分钟未确认时会提示检查更新日志。`systemd` 托管和容器主进程应使用手动更新，由原服务管理器重新启动。
+
+更新过程记录在安装目录的 `.drae-update.log`，重启输出分别写入 `drae-pet-server.log` 和 `drae-pet-frontend.log`。新程序启动后立即退出时会恢复旧程序，失败暂存目录中的 `previous-*` 备份会保留；再次安装会使用新的暂存目录，不覆盖旧备份。下载中断后仍可断点续传。更新不会替换账号数据库。若助手被强行终止，确认没有更新进程后，可用 `rmdir .drae-update.lock` 清除残留锁再重试。
 
 ## 服务配置
 
@@ -138,11 +140,13 @@ Linux 对应命令：`BACKEND_URL=http://127.0.0.1:8080 ./start-frontend.sh`。�
 
 用户端默认使用清爽工作台布局，保留 Drae宠物乐园名称和标志。首页汇总账号、金币、自动照料与运行记录，手机端提供底部快捷导航及侧栏抽屉。
 
-管理员可在 **管理后台 → 系统设置 → 用户端外观** 中修改布局、主题颜色、侧栏颜色、页面间距、圆角、基础字号、内容宽度和首页欢迎语，也可切换回经典乐园。保存后配置写入数据库，对所有用户生效；已打开的用户页在刷新或重新获得窗口焦点时读取新配置。普通用户无法修改外观。管理后台继续使用原有布局与样式。
+管理员可在 **管理后台 → 系统设置 → 用户端外观** 中修改布局、主题颜色、侧栏颜色、页面间距、圆角、基础字号、内容宽度和首页欢迎语。清爽工作台与经典乐园均支持上述配置，共用同一套设置；经典乐园保留原有导航和 Drae 名称、标志，登录页、手机导航和弹窗也会跟随主题。编辑时可实时预览，欢迎语留空时不显示。保存后配置写入数据库，对所有用户生效；已打开的用户页在刷新或重新获得窗口焦点时读取新配置。普通用户无法修改外观。管理后台继续使用原有布局与样式。
 
 开发时可通过 `BACKEND_URL` 指定 Vite 代理的后端地址，默认仍为 `http://127.0.0.1:2345`。
 
 ## 从旧版升级
+
+从 2.5.0 或更早版本升级到本版时，建议手动替换前后端程序一次；旧程序内置的更新助手不包含本次修复，不能依靠新版安装包修复尚在运行的旧助手。保留实际使用的数据库路径和启动环境。
 
 1. 停止旧版前后端，备份整个 `data` 目录。
 2. 将新版本解压到独立目录，把原服务端实际使用的 `data` 目录复制到新目录。
