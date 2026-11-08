@@ -1,4 +1,4 @@
-# Drae 宠物乐园 2.4.0
+# Drae 宠物乐园 2.5.0
 
 QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园。
 
@@ -26,12 +26,18 @@ QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园
 
 - 刷新好友列表，查看好友宠物资料、拜访小窝和踩一踩，也能向好友发起 PK。
 - 扫描自家及好友小窝的福袋并领取，查看领取数量与金币统计。
+- 自动福袋按每 10 位好友一批核验并领取，领取完再扫描下一批，直至全部完成；单个好友查询或领取失败会记录并跳过。网页手动扫描逐批显示结果，可边扫描边领取，关闭弹窗会停止本次手动扫描。
 
 ### 自动照料
 
 - 分别开启日常照料、每日活动计划、被雇佣自动召回、福袋领取、好友踩一踩和自动 PK，并查看各模块执行记录。
 - 为自己及选定的好友设置照料阈值；饼干或香皂片不足时自动购买。
+- 照料名单中的失效好友仍可查看和单独移除；移除仅更新本地照料名单，不依赖好友关系、框架在线状态或其他好友资料。
 - 每日活动可安排学习、打工和冒险；连接恢复后可继续因掉线暂停的功能。
+- 被雇佣召回后按活动状态处理收益：仍在活动中等待返回，已完成且未空闲时才请求结算；确认空闲后直接继续计划，不再结算旧活动 ID。
+- 好友踩一踩每天北京时间 00:00 开始，从数据库中保存的好友逐一执行；每位好友每天仅自动尝试一次，失败或超时直接跳过，当天不再重试，服务重启也不补发；好友列表只在主动更新时请求框架。
+- 好友 PK 每天北京时间 01:00 开始，最多 10 次，PK 后不触发喂食或洗护，日常照料独立执行。
+- 自动任务执行日志仅显示当日记录，服务启动时及每天北京时间 00:00 自动删除之前的执行日志；账号、好友、任务配置和状态、福袋收益数据继续保存。
 
 ### 账号与乐园管理
 
@@ -41,20 +47,24 @@ QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园
 
 ## 本版更新
 
-- 管理端新增自动更新页面，支持后台检查、手动检查及 Markdown 更新日志。
-- 支持国内镜像、直连和自定义下载节点，并根据系统平台与架构选择发行包。
-- 更新下载支持断点续传；无法自动替换时，可将对应安装包下载到运行目录。
-- 提供 Windows x64、Windows ARM64、Linux x64、Linux ARM64 四种发行包。
+- 新增用户端布局，保留 Drae 品牌；管理端可统一设置用户端外观，并切换原版布局。
+- 好友列表优先使用数据库缓存，移除自动任务中的重复目录请求。
+- 好友踩一踩每天北京时间 00:00 开始，失败当天不再重试；好友 PK 每天 01:00 开始，PK 后不额外喂食或洗护。
+- 自动任务指令统一排队，网页手动操作直接提交，优化查询与页面加载等待。
+- 福袋每扫描 10 位好友就领取一批；网页逐批展示，可边扫描边领取。
+- 修复失效好友无法移出照料名单、召回后旧活动重复结算，以及原版手机端好友选择弹窗显示问题。
+- 自动任务执行日志仅保留当日记录，账号、配置及福袋收益数据继续保存。
 
-详细内容见 [2.4.0 更新日志](CHANGELOG_2.4.0.md)。
+详细内容见 [2.5.0 更新日志](https://github.com/yuexl258/memgke-qq-pet/blob/main/CHANGELOG_2.5.0.md)。
 
 ## 下载
 
-- [Windows x64 安装包](version/2.4.0/drae-pet-2.4.0-windows-amd64.zip)
-- [Windows ARM64 安装包](version/2.4.0/drae-pet-2.4.0-windows-arm64.zip)
-- [Linux x64 安装包](version/2.4.0/drae-pet-2.4.0-linux-amd64.tar.gz)
-- [Linux ARM64 安装包](version/2.4.0/drae-pet-2.4.0-linux-arm64.tar.gz)
-- [安装包 SHA-256 校验值](version/2.4.0/SHA256SUMS.txt) · [所有版本](https://github.com/yuexl258/memgke-qq-pet/releases)
+- [Windows x64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.5.0/drae-pet-2.5.0-windows-amd64.zip)
+- [Windows ARM64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.5.0/drae-pet-2.5.0-windows-arm64.zip)
+- [Linux x64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.5.0/drae-pet-2.5.0-linux-amd64.tar.gz)
+- [Linux ARM64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.5.0/drae-pet-2.5.0-linux-arm64.tar.gz)
+- [SHA-256 校验文件](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.5.0/SHA256SUMS.txt)
+- [所有版本](https://github.com/yuexl258/memgke-qq-pet/releases)
 
 ## 解压后的文件
 
@@ -62,7 +72,7 @@ QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园
 - `drae-pet-frontend.exe` / `drae-pet-frontend`：内嵌网页的前端服务，将 `/api`、`/healthz` 和 `/ws` 转发给后端。
 - `start-server.cmd` / `start-server.sh`：启动后端。
 - `start-frontend.cmd` / `start-frontend.sh`：启动前端。
-- `SHA256SUMS.txt`：解压目录内文件的校验值；另附四个压缩包的校验值。
+- `SHA256SUMS.txt`：解压目录内文件的校验值；Release 页面另附两个压缩包的校验值。
 
 两个服务都要运行，且应从**解压后的文件夹**启动；不要在压缩包预览窗口里直接运行。程序不需要安装 Node.js 或 Go。首次启动会在解压目录创建 `data/qq-pet.db`，请将文件夹放在有写入权限的位置。
 
@@ -70,7 +80,7 @@ QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园
 
 1. 下载 Windows ZIP，右键“全部解压”。打开解压后含有 `start-server.cmd` 的文件夹。
 2. 双击 `start-server.cmd`。首次运行依次输入服务端口号、管理员用户名、管理员密码；端口建议填 **2345**。看到 `server started` 后保留这个窗口。
-3. 双击 `start-frontend.cmd`，保留第二个窗口。看到“Frontend 2.4.0 已启动”后，在浏览器打开 <http://127.0.0.1:5173>。
+3. 双击 `start-frontend.cmd`，保留第二个窗口。看到“Frontend 2.5.0 已启动”后，在浏览器打开 <http://127.0.0.1:5173>。
 4. 用刚设置的管理员账号登录。先在管理后台配置正在运行的萌卡 NT 节点，再让用户生成专属指纹并添加 QQ。
 
 每次重启都按“后端 → 前端”的顺序运行两个脚本。后端使用已有数据库时会读取已保存的端口和管理员账号，不再重复初始化。要停止服务，可在两个命令窗口分别按 `Ctrl+C`。
@@ -80,15 +90,15 @@ QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园
 在存放压缩包的目录执行：
 
 ```sh
-tar -xzf drae-pet-2.4.0-linux-amd64.tar.gz
-cd drae-pet-2.4.0-linux-amd64
+tar -xzf drae-pet-2.5.0-linux-amd64.tar.gz
+cd drae-pet-2.5.0-linux-amd64
 ./start-server.sh
 ```
 
 首次运行依次输入端口号（建议 **2345**）、管理员用户名、管理员密码。看到 `server started` 后，保持这个终端运行；在**另一个终端**进入同一解压目录并启动前端：
 
 ```sh
-cd drae-pet-2.4.0-linux-amd64
+cd drae-pet-2.5.0-linux-amd64
 ./start-frontend.sh
 ```
 
@@ -116,8 +126,21 @@ Linux 对应命令：`BACKEND_URL=http://127.0.0.1:8080 ./start-frontend.sh`。�
 | `DATABASE_PATH` | 数据库位置，默认 `./data/qq-pet.db` |
 | `APP_ADDR` | 空数据库首次初始化的后端地址，如 `:2345` |
 | `ADMIN_USERNAME` / `ADMIN_PASSWORD` | 首次创建管理员使用，未设置则终端提示输入 |
+| `MOKANT_COMMAND_INTERVAL_MS` | 框架节点串行指令间隔，默认 `200` 毫秒 |
+| `MOKANT_COMMAND_TIMEOUT_SECONDS` | 单条框架指令发出后的等待上限，默认 `20` 秒 |
+| `MOKANT_COMMAND_QUEUE_SIZE` | 每个框架节点最多排队的指令数，默认 `256` |
 
 启动脚本将工作目录固定在解压目录。后续启动读取数据库内保存的监听地址和账号配置。
+
+后台自动任务的框架业务指令按节点先进先出排队，每个节点同时只执行一条自动指令。网页操作（包括账号管理、查询、宠物操作、底层发包，以及用户主动触发的好友刷新和照料刷新）直接提交，不等待自动任务队列；独立请求通过各自的指令 ID 接收回复。网页单条指令仍受调用方截止时间和 `MOKANT_COMMAND_TIMEOUT_SECONDS` 限制。自动任务排队时间受调用方的截止时间约束，已取消的待执行指令会跳过；已发送的自动指令等待回复或单条超时后再执行下一条。队列满时返回忙碌错误，断线时清理该连接的待执行指令，重连后不自动补发。认证和心跳独立发送，以维持连接。
+
+## 用户端外观
+
+用户端默认使用清爽工作台布局，保留 Drae宠物乐园名称和标志。首页汇总账号、金币、自动照料与运行记录，手机端提供底部快捷导航及侧栏抽屉。
+
+管理员可在 **管理后台 → 系统设置 → 用户端外观** 中修改布局、主题颜色、侧栏颜色、页面间距、圆角、基础字号、内容宽度和首页欢迎语，也可切换回经典乐园。保存后配置写入数据库，对所有用户生效；已打开的用户页在刷新或重新获得窗口焦点时读取新配置。普通用户无法修改外观。管理后台继续使用原有布局与样式。
+
+开发时可通过 `BACKEND_URL` 指定 Vite 代理的后端地址，默认仍为 `http://127.0.0.1:2345`。
 
 ## 从旧版升级
 
