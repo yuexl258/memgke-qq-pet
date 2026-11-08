@@ -1,4 +1,4 @@
-# Drae 宠物乐园 2.5.2
+# Drae 宠物乐园 2.6.0
 
 QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园。
 
@@ -35,8 +35,8 @@ QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园
 - 照料名单中的失效好友仍可查看和单独移除；移除仅更新本地照料名单，不依赖好友关系、框架在线状态或其他好友资料。
 - 每日活动可安排学习、打工和冒险；连接恢复后可继续因掉线暂停的功能。
 - 被雇佣召回后按活动状态处理收益：仍在活动中等待返回，已完成且未空闲时才请求结算；确认空闲后直接继续计划，不再结算旧活动 ID。
-- 好友踩一踩每天北京时间 00:00 开始，从数据库中保存的好友逐一执行；每位好友每天仅自动尝试一次，失败或超时直接跳过，当天不再重试，服务重启也不补发；好友列表只在主动更新时请求框架。
-- 好友 PK 每天北京时间 01:00 开始，最多 10 次，PK 后不触发喂食或洗护，日常照料独立执行。
+- 好友踩一踩每天北京时间 00:00 开始，从数据库中保存的好友逐一执行；每位好友每天仅自动尝试一次，失败或超时直接跳过，当天不再自动重试，服务重启也不补发。需要再次尝试时，可点击“重试失败项”；好友列表只在主动更新时请求框架。
+- 好友 PK 每天北京时间 01:00 开始，最多 10 次；也可点击“手动重试”主动执行，保留原有自动开关设置。PK 后不触发喂食或洗护，日常照料独立执行。
 - 自动任务执行日志仅显示当日记录，服务启动时及每天北京时间 00:00 自动删除之前的执行日志；账号、好友、任务配置和状态、福袋收益数据继续保存。
 
 ### 账号与乐园管理
@@ -44,23 +44,25 @@ QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园
 - 注册、登录和管理多个 QQ 账号，生成并管理专属设备指纹。
 - 查看钱包、乐园公告及个人资料；管理端支持成员、QQ 账号、服务套餐、卡密、公告和节点配置。
 - 支持配置 QQ 官方机器人，通过绑定码关联账号和群，使用签到及金币查询功能。
+- 官方机器人可开启版本更新推送，每 10 分钟通过系统更新页保存的节点检查版本，发现新版本后向已绑定群聊发送通知；同一机器人、群聊和版本成功推送后不再重复发送，重启仍保留记录。机器人断开、推送关闭或未绑定群聊时暂停检测。
 
 ## 本版更新
 
-- 移除框架业务指令的串行调度队列，后台自动任务和网页操作均直接发送，避免慢请求使后续指令排队超时。
-- 各请求通过独立 ID 匹配回复，保留超时保护、取消清理及断线处理，重连不补发旧请求。
-- 移除指令间隔和队列容量配置，保留单条指令超时配置。
-- 延续 2.5.1 的页面加载、Linux 更新、用户端外观和备案设置修复。
+- 官方机器人新增版本更新群通知，每 10 分钟通过已保存的更新节点检查版本，成功推送后按机器人、群聊和版本去重。
+- 系统更新节点保存到服务端，支持跨浏览器使用，并与官方机器人更新推送共用配置。
+- 好友踩一踩新增“重试失败项”，可手动重试今日未成功的好友并查看处理进度。
+- 好友 PK 新增“手动重试”，可主动重新检查好友并执行，保留原有自动开关和执行记录。
+- 延续原有页面加载、Linux 更新、用户端外观和备案设置修复。
 - 本版提供 Windows x64、Linux x64 和 Linux ARM64 安装包，不提供 Windows ARM64 包。
 
-详细内容见 [2.5.2 更新日志](https://github.com/yuexl258/memgke-qq-pet/blob/main/CHANGELOG_2.5.2.md)。
+详细内容见 [2.6.0 更新日志](https://github.com/yuexl258/memgke-qq-pet/blob/main/CHANGELOG_2.6.0.md)。
 
 ## 下载
 
-- [Windows x64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.5.2/drae-pet-2.5.2-windows-amd64.zip)
-- [Linux x64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.5.2/drae-pet-2.5.2-linux-amd64.tar.gz)
-- [Linux ARM64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.5.2/drae-pet-2.5.2-linux-arm64.tar.gz)
-- [SHA-256 校验文件](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.5.2/SHA256SUMS.txt)
+- [Windows x64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.6.0/drae-pet-2.6.0-windows-amd64.zip)
+- [Linux x64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.6.0/drae-pet-2.6.0-linux-amd64.tar.gz)
+- [Linux ARM64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.6.0/drae-pet-2.6.0-linux-arm64.tar.gz)
+- [SHA-256 校验文件](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.6.0/SHA256SUMS.txt)
 - [所有版本](https://github.com/yuexl258/memgke-qq-pet/releases)
 
 ## 解压后的文件
@@ -77,7 +79,7 @@ QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园
 
 1. 下载 Windows ZIP，右键“全部解压”。打开解压后含有 `start-server.cmd` 的文件夹。
 2. 双击 `start-server.cmd`。首次运行依次输入服务端口号、管理员用户名、管理员密码；端口建议填 **2345**。看到 `server started` 后保留这个窗口。
-3. 双击 `start-frontend.cmd`，保留第二个窗口。看到“Frontend 2.5.2 已启动”后，在浏览器打开 <http://127.0.0.1:5173>。
+3. 双击 `start-frontend.cmd`，保留第二个窗口。看到“Frontend 2.6.0 已启动”后，在浏览器打开 <http://127.0.0.1:5173>。
 4. 用刚设置的管理员账号登录。先在管理后台配置正在运行的萌卡 NT 节点，再让用户生成专属指纹并添加 QQ。
 
 每次重启都按“后端 → 前端”的顺序运行两个脚本。后端使用已有数据库时会读取已保存的端口和管理员账号，不再重复初始化。要停止服务，可在两个命令窗口分别按 `Ctrl+C`。
@@ -87,15 +89,15 @@ QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园
 在存放压缩包的目录执行：
 
 ```sh
-tar -xzf drae-pet-2.5.2-linux-amd64.tar.gz
-cd drae-pet-2.5.2-linux-amd64
+tar -xzf drae-pet-2.6.0-linux-amd64.tar.gz
+cd drae-pet-2.6.0-linux-amd64
 ./start-server.sh
 ```
 
 首次运行依次输入端口号（建议 **2345**）、管理员用户名、管理员密码。看到 `server started` 后，保持这个终端运行；在**另一个终端**进入同一解压目录并启动前端：
 
 ```sh
-cd drae-pet-2.5.2-linux-amd64
+cd drae-pet-2.6.0-linux-amd64
 ./start-frontend.sh
 ```
 
