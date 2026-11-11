@@ -64,11 +64,7 @@ QQ 宠物资料、日常照料、好友互动、PK 与自动托管的 Web 乐园
 
 ## 下载
 
-- [Windows x64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.6.0/drae-pet-2.6.0-windows-amd64.zip)
-- [Linux x64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.6.0/drae-pet-2.6.0-linux-amd64.tar.gz)
-- [Linux ARM64 安装包](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.6.0/drae-pet-2.6.0-linux-arm64.tar.gz)
-- [SHA-256 校验文件](https://github.com/yuexl258/memgke-qq-pet/releases/download/v2.6.0/SHA256SUMS.txt)
-- [所有版本](https://github.com/yuexl258/memgke-qq-pet/releases)
+已编译版本、安装包及校验文件已移除，不再提供下载。
 
 ## 解压后的文件
 
